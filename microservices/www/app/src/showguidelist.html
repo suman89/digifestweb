@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/JavaScript" src="http://underscorejs.org/underscore-min.js"></script>
+
   <style>
     /* Remove the navbar's default margin-bottom and rounded borders */ 
     .navbar {
@@ -75,6 +77,67 @@
 	margin-right: 10px;
 }
   </style>
+  
+
+
+  
+
+      
+
+     
+   
+
+
+
+  <script type="text/javascript"> 
+  $(document).ready(function(){
+  
+	
+		$.ajax({
+		url: "https://data.lifetime70.hasura-app.io/v1/query",
+		contentType: "application/json",
+		headers: {
+      "Authorization": "Bearer b9b7940a430d402413b63b2c28c9ca8823dc87ec924da6c8"
+		},
+		data: JSON.stringify({
+      "type": "run_sql",
+      "args": {
+            "sql": "select u.name, g.rating from userdata u, guideinfo g where u.usertype = 'Guide' and g.userid = u.userid and g.availabletimefrom <= '12-01-2012 21:24:00' and g.availabletimeto >= '12-01-2012 21:24:00' and g.servingareacity = 'Udaipur';"
+      }
+		}),
+		type: "POST",
+		dataType: "json"
+		}).done(function(json) {
+		
+     
+      for(var i=1;i < json.result.length;i++)
+      {
+        $("#search-result").append("<div class='row list-group-item'><div class='col-sm-5'>"+json.result[i][0]+"</div><div class='col-sm-5'>"+json.result[i][1]+"</div><div class='col-sm-2'><button type='submit' class='btn btn-success'>Book</button></div></div>" );
+
+      }
+
+
+
+		// Handle Response
+		}).fail(function(xhr, status, errorThrown) {
+		console.log("Error: " + errorThrown);
+		console.log("Status: " + status);
+		console.dir(xhr);
+		});
+		  
+  });
+
+
+
+  
+  
+  
+  
+  </script>
+  
+  
+
+
 </head>
 <body>
 
@@ -110,20 +173,52 @@
       <p><a href="#">Accomodation</a></p>
 	  <p><a href="#">Places to Visit</a></p>
     </div>
-    <div class="col-sm-8 text-left"> 
+    <div class="col-sm-8 text-left">
+
+		 <h1>Search Guide</h1>
+      
+			  <div class="form-group">
+				<label for="location">Location:</label>
+				<input type="email" class="form-control" id="location">
+			  </div>
+			 
+			  <div class="row">
+			  <div class="col-sm-6">
+			  <div class="form-group">
+				<label for="timefrom">Time from</label>
+				
+				<input type="datetime-local" name="datetime" id="timefrom">
+				
+				</div>
+				</div>
+				
+				<div class="col-sm-6">
+			  <div class="form-group">
+				<label for="timeto">Time To</label>
+				
+				<input type="datetime-local" name="datetime" id="timeto">
+				
+				</div>
+				</div>
+			  </div>
+			  
+			
+				<button class="btn btn-default">Search Guides</button>
+
+
+		
       <h1>List of Available Guides</h1>
       
-			<div class="row list-group-item">
-				<div class="col-sm-5">Guide Name</div>
-				<div class="col-sm-5">Rating: ****</div>
-				<div class="col-sm-2"><button type="submit" class="btn btn-success">Book</button></div>
-			</div>
 			
-			<div class="row list-group-item">
+			
+			<!-- <div class="row list-group-item">
 				<div class="col-sm-5">Guide Name</div>
 				<div class="col-sm-5">Rating: ****</div>
 				<div class="col-sm-2"><button type="submit" class="btn btn-success">Book</button></div>
-			</div>
+      </div> -->
+      
+      <div id="search-result">
+      </div>
 	
 	  
     </div>
