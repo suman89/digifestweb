@@ -9,7 +9,140 @@
   <link rel="stylesheet" href="./style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<<<<<<< HEAD
   
+=======
+  <script type="text/JavaScript" src="http://underscorejs.org/underscore-min.js"></script>
+
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 648px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+    
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;} 
+    }
+.fa {
+  padding: 20px;
+  font-size: 30px;
+  width: 50px;
+  text-align: center;
+  text-decoration: none;
+  margin: 5px 2px;
+}
+
+.fa:hover {
+    opacity: 0.7;
+}
+
+.fa-facebook {
+  background: #3B5998;
+  color: white;
+}
+
+.fa-twitter {
+  background: #55ACEE;
+  color: white;
+}
+
+.fa-google {
+  background: #dd4b39;
+  color: white;
+}
+
+
+.list-group-item {
+	margin-top: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+  </style>
+  
+
+
+  
+
+      
+
+     
+   
+
+
+
+  <script type="text/javascript"> 
+  $(document).ready(function(){
+  
+	
+		$.ajax({
+		url: "https://data.lifetime70.hasura-app.io/v1/query",
+		contentType: "application/json",
+		headers: {
+      "Authorization": "Bearer b9b7940a430d402413b63b2c28c9ca8823dc87ec924da6c8"
+		},
+		data: JSON.stringify({
+      "type": "run_sql",
+      "args": {
+            "sql": "select u.name, g.rating from userdata u, guideinfo g where u.usertype = 'Guide' and g.userid = u.userid and g.availabletimefrom <= '12-01-2012 21:24:00' and g.availabletimeto >= '12-01-2012 21:24:00' and g.servingareacity = 'Udaipur';"
+      }
+		}),
+		type: "POST",
+		dataType: "json"
+		}).done(function(json) {
+		
+     
+      for(var i=1;i < json.result.length;i++)
+      {
+        $("#search-result").append("<div class='row list-group-item'><div class='col-sm-5'>"+json.result[i][0]+"</div><div class='col-sm-5'>"+json.result[i][1]+"</div><div class='col-sm-2'><button type='submit' class='btn btn-success'>Book</button></div></div>" );
+
+      }
+
+
+
+		// Handle Response
+		}).fail(function(xhr, status, errorThrown) {
+		console.log("Error: " + errorThrown);
+		console.log("Status: " + status);
+		console.dir(xhr);
+		});
+		  
+  });
+
+
+
+  
+  
+  
+  
+  </script>
+  
+  
+
+
+>>>>>>> d8511a0fab0060d03d5887fa0bc3aacd7dd0d482
 </head>
 <body>
 
@@ -45,13 +178,54 @@
       <p><a href="#">Accomodation</a></p>
 	  <p><a href="#">Places to Visit</a></p>
     </div>
-    <div class="col-sm-8 text-left"> 
+    <div class="col-sm-8 text-left">
+
+		 <h1>Search Guide</h1>
+      
+			  <div class="form-group">
+				<label for="location">Location:</label>
+				<input type="email" class="form-control" id="location">
+			  </div>
+			 
+			  <div class="row">
+			  <div class="col-sm-6">
+			  <div class="form-group">
+				<label for="timefrom">Time from</label>
+				
+				<input type="datetime-local" name="datetime" id="timefrom">
+				
+				</div>
+				</div>
+				
+				<div class="col-sm-6">
+			  <div class="form-group">
+				<label for="timeto">Time To</label>
+				
+				<input type="datetime-local" name="datetime" id="timeto">
+				
+				</div>
+				</div>
+			  </div>
+			  
+			
+				<button class="btn btn-default">Search Guides</button>
+
+
+		
       <h1>List of Available Guides</h1>
-      <form>
-  
-  
-  <button type="submit" class="btn btn-success">Book</button>
-</form>
+      
+			
+			
+			<!-- <div class="row list-group-item">
+				<div class="col-sm-5">Guide Name</div>
+				<div class="col-sm-5">Rating: ****</div>
+				<div class="col-sm-2"><button type="submit" class="btn btn-success">Book</button></div>
+      </div> -->
+      
+      <div id="search-result">
+      </div>
+	
+	  
     </div>
     <div class="col-sm-2 sidenav">
       <div class="well">
