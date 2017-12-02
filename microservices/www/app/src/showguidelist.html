@@ -55,9 +55,12 @@
 		});
 
   
-$('.dropdown-menu a').on('click', function(){    
+$('.dropdown-menu a').on('click', function(){
+  alert($(this).parent().html());  
+  alert($(this).parent().parent().html()); 
+  alert($(this).parent().parent().prev().html());  
     $(this).parent().parent().prev().html($(this).html() + '<span class="caret"></span>');    
-})
+});
 
 		  
   });
